@@ -31,8 +31,8 @@ import java.util.function.Consumer;
 public class ScreenClassBuilder<S extends Screen> extends ScreenBuilder {
 
     protected Class<S> screenClass;
-    protected List<Consumer<Screen.AfterCloseEvent<S>>> afterCloseListeners = new ArrayList<>();
-    protected List<Consumer<Screen.AfterShowEvent<S>>> afterShowListeners = new ArrayList<>();
+    protected List<Consumer<Screen.AfterCloseEvent>> afterCloseListeners = new ArrayList<>();
+    protected List<Consumer<Screen.AfterShowEvent>> afterShowListeners = new ArrayList<>();
 
     public ScreenClassBuilder(ScreenBuilder builder, Class<S> screenClass) {
         super(builder);
@@ -62,7 +62,7 @@ public class ScreenClassBuilder<S extends Screen> extends ScreenBuilder {
      *
      * @param listener listener
      */
-    public ScreenClassBuilder<S> withAfterShowListener(Consumer<Screen.AfterShowEvent<S>> listener) {
+    public ScreenClassBuilder<S> withAfterShowListener(Consumer<Screen.AfterShowEvent> listener) {
         afterShowListeners.add(listener);
         return this;
     }
@@ -72,7 +72,7 @@ public class ScreenClassBuilder<S extends Screen> extends ScreenBuilder {
      *
      * @param listener listener
      */
-    public ScreenClassBuilder<S> withAfterCloseListener(Consumer<Screen.AfterCloseEvent<S>> listener) {
+    public ScreenClassBuilder<S> withAfterCloseListener(Consumer<Screen.AfterCloseEvent> listener) {
         afterCloseListeners.add(listener);
         return this;
     }
@@ -88,14 +88,14 @@ public class ScreenClassBuilder<S extends Screen> extends ScreenBuilder {
     /**
      * @return after show screen listeners
      */
-    public List<Consumer<Screen.AfterShowEvent<S>>> getAfterShowListeners() {
+    public List<Consumer<Screen.AfterShowEvent>> getAfterShowListeners() {
         return afterShowListeners;
     }
 
     /**
      * @return after close screen listeners
      */
-    public List<Consumer<Screen.AfterCloseEvent<S>>> getAfterCloseListeners() {
+    public List<Consumer<Screen.AfterCloseEvent>> getAfterCloseListeners() {
         return afterCloseListeners;
     }
 

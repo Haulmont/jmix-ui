@@ -127,9 +127,9 @@ public class DateIntervalAction extends BaseAction implements ValuePicker.ValueP
         }
     }
 
-    protected void onDateIntervalDialogCloseEvent(Screen.AfterCloseEvent<DateIntervalDialog> closeEvent) {
+    protected void onDateIntervalDialogCloseEvent(Screen.AfterCloseEvent closeEvent) {
         if (closeEvent.closedWith(StandardOutcome.COMMIT)) {
-            valuePicker.setValueFromUser(closeEvent.getSource().getValue());
+            valuePicker.setValueFromUser(((DateIntervalDialog) closeEvent.getSource()).getValue());
         }
     }
 }

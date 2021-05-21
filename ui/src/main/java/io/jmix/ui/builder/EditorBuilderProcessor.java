@@ -178,15 +178,15 @@ public class EditorBuilderProcessor {
         }
 
         if (builder instanceof EditorClassBuilder) {
-            List<Consumer<Screen.AfterShowEvent<S>>> afterShowListeners =
+            List<Consumer<Screen.AfterShowEvent>> afterShowListeners =
                     ((EditorClassBuilder) builder).getAfterShowListeners();
-            for (Consumer<Screen.AfterShowEvent<S>> afterShowListener : afterShowListeners) {
+            for (Consumer<Screen.AfterShowEvent> afterShowListener : afterShowListeners) {
                 screen.addAfterShowListener(afterShowListener);
             }
 
-            List<Consumer<Screen.AfterCloseEvent<S>>> afterCloseListeners =
+            List<Consumer<Screen.AfterCloseEvent>> afterCloseListeners =
                     ((EditorClassBuilder) builder).getAfterCloseListeners();
-            for (Consumer<Screen.AfterCloseEvent<S>> afterCloseListener : afterCloseListeners) {
+            for (Consumer<Screen.AfterCloseEvent> afterCloseListener : afterCloseListeners) {
                 screen.addAfterCloseListener(afterCloseListener);
             }
         }
