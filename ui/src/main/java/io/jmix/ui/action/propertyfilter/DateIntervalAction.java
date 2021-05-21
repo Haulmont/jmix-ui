@@ -22,6 +22,7 @@ import io.jmix.ui.action.ActionType;
 import io.jmix.ui.action.BaseAction;
 import io.jmix.ui.app.propertyfilter.dateinterval.DateIntervalDialog;
 import io.jmix.ui.app.propertyfilter.dateinterval.BaseDateInterval;
+import io.jmix.ui.builder.AfterScreenCloseEvent;
 import io.jmix.ui.component.Component;
 import io.jmix.ui.component.Frame;
 import io.jmix.ui.component.ValuePicker;
@@ -127,9 +128,9 @@ public class DateIntervalAction extends BaseAction implements ValuePicker.ValueP
         }
     }
 
-    protected void onDateIntervalDialogCloseEvent(Screen.AfterCloseEvent closeEvent) {
+    protected void onDateIntervalDialogCloseEvent(AfterScreenCloseEvent<DateIntervalDialog> closeEvent) {
         if (closeEvent.closedWith(StandardOutcome.COMMIT)) {
-            valuePicker.setValueFromUser(((DateIntervalDialog) closeEvent.getSource()).getValue());
+            valuePicker.setValueFromUser(closeEvent.getSource().getValue());
         }
     }
 }

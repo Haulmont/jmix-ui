@@ -48,14 +48,14 @@ public class ScreenBuilderProcessor {
 
             screen = screens.create(screenClass, builder.getOpenMode(), builder.getOptions());
 
-            List<Consumer<Screen.AfterShowEvent>> afterShowListeners = screenClassBuilder.getAfterShowListeners();
-            for (Consumer<Screen.AfterShowEvent> afterShowListener : afterShowListeners) {
-                screen.addAfterShowListener(afterShowListener);
+            Consumer<AfterScreenShowEvent> afterShowListener = screenClassBuilder.getAfterShowListener();
+            if (afterShowListener != null) {
+                screen.addAfterShowListener(new AfterShowListenerAdapter(afterShowListener));
             }
 
-            List<Consumer<Screen.AfterCloseEvent>> afterCloseListeners = screenClassBuilder.getAfterCloseListeners();
-            for (Consumer<Screen.AfterCloseEvent> afterCloseListener : afterCloseListeners) {
-                screen.addAfterCloseListener(afterCloseListener);
+            Consumer<AfterScreenCloseEvent> afterCloseListener = screenClassBuilder.getAfterCloseListener();
+            if (afterCloseListener != null) {
+                screen.addAfterCloseListener(new AfterCloseListenerAdapter(afterCloseListener));
             }
         } else {
             if (builder.getScreenId() == null) {
