@@ -19,13 +19,15 @@ package io.jmix.ui.app.propertyfilter.dateinterval;
 import com.google.common.base.Strings;
 import io.jmix.core.Messages;
 import io.jmix.core.annotation.Internal;
-import io.jmix.ui.app.propertyfilter.dateinterval.predefined.PredefinedDateInterval;
-import io.jmix.ui.app.propertyfilter.dateinterval.predefined.PredefinedDateIntervalRegistry;
+import io.jmix.ui.app.propertyfilter.dateinterval.converter.DateIntervalConverter;
+import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.interval.DateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined.PredefinedDateInterval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
-import java.util.regex.Pattern;
+import java.util.List;
 
 /**
  * Utility class for date intervals.
@@ -37,25 +39,17 @@ import java.util.regex.Pattern;
 @Component("ui_DateIntervalUtils")
 public class DateIntervalUtils {
 
-    protected PredefinedDateIntervalRegistry predefinedIntervalFactory;
     protected Messages messages;
-
-    protected static final String INCLUDING_CURRENT_DESCR = "including_current";
-
-    protected static final Pattern NEXT_LAST_PATTERN =
-            Pattern.compile("(NEXT|LAST)\\s+\\d+\\s+(DAY|MONTH|MINUTE|HOUR)(\\s+including_current)?");
-
-    protected static final Pattern PREDEFINED_PATTERN =
-            Pattern.compile("PREDEFINED\\s+\\w+");
-
-    @Autowired
-    public void setPredefinedIntervalFactory(PredefinedDateIntervalRegistry predefinedIntervalFactory) {
-        this.predefinedIntervalFactory = predefinedIntervalFactory;
-    }
+    protected List<DateIntervalConverter> dateIntervalConverters;
 
     @Autowired
     public void setMessages(Messages messages) {
         this.messages = messages;
+    }
+
+    @Autowired
+    public void setDateIntervalConverters(List<DateIntervalConverter> dateIntervalConverters) {
+        this.dateIntervalConverters = dateIntervalConverters;
     }
 
     /**
@@ -72,26 +66,13 @@ public class DateIntervalUtils {
             return null;
         }
 
-        if (!NEXT_LAST_PATTERN.matcher(dateInterval).matches()
-                && !PREDEFINED_PATTERN.matcher(dateInterval).matches()) {
-            throw new IllegalArgumentException("Wrong filter date interval string format");
+        for (DateIntervalConverter converter : dateIntervalConverters) {
+            if (converter.matches(dateInterval)) {
+                return converter.parse(dateInterval);
+            }
         }
 
-        String[] parts = dateInterval.split("\\s+");
-        BaseDateInterval.Type type = BaseDateInterval.Type.valueOf(parts[0]);
-
-        if (type == BaseDateInterval.Type.PREDEFINED) {
-            return predefinedIntervalFactory.getIntervalByName(parts[1])
-                    .orElseThrow(() ->
-                            new IllegalArgumentException("There is no predefined date interval with given name: '"
-                                    + parts[1] + "'"));
-        } else {
-            Integer number = Integer.valueOf(parts[1]);
-            DateInterval.TimeUnit timeUnit = DateInterval.TimeUnit.valueOf(parts[2]);
-            Boolean includeCurrent = parts.length == 4 && INCLUDING_CURRENT_DESCR.equals(parts[3]);
-
-            return new DateInterval(type, number, timeUnit, includeCurrent);
-        }
+        throw new IllegalArgumentException("Wrong date interval string format");
     }
 
     /**
@@ -103,15 +84,13 @@ public class DateIntervalUtils {
      * @see PredefinedDateInterval
      */
     public String formatDateInterval(BaseDateInterval dateInterval) {
-        BaseDateInterval.Type type = dateInterval.getType();
-
-        if (type == BaseDateInterval.Type.PREDEFINED) {
-            return type.name() + " " + ((PredefinedDateInterval) dateInterval).getName();
-        } else {
-            DateInterval interval = (DateInterval) dateInterval;
-            return type.name() + " " + interval.getNumber() + " " + interval.getTimeUnit()
-                    + (Boolean.TRUE.equals(interval.getIncludingCurrent()) ? " " + INCLUDING_CURRENT_DESCR : "");
+        for (DateIntervalConverter converter : dateIntervalConverters) {
+            if (converter.supports(dateInterval.getType())) {
+                return converter.format(dateInterval);
+            }
         }
+
+        throw new IllegalStateException(String.format("Unknown date interval type: %s", dateInterval.getType()));
     }
 
     /**
@@ -128,21 +107,12 @@ public class DateIntervalUtils {
             return null;
         }
 
-        BaseDateInterval.Type type = dateInterval.getType();
-
-        if (type == DateInterval.Type.PREDEFINED) {
-            return ((PredefinedDateInterval) dateInterval).getLocalizedCaption();
-        } else {
-            DateInterval interval = (DateInterval) dateInterval;
-            Boolean include = interval.getIncludingCurrent();
-            return messages.getMessage(this.getClass(), type.name().toLowerCase())
-                    + " "
-                    + interval.getNumber()
-                    + " "
-                    + messages.getMessage(interval.getTimeUnit()).toLowerCase()
-                    + (Boolean.TRUE.equals(include)
-                    ? " " + messages.getMessage(this.getClass(), "dateIntervals.includingCurrent")
-                    : "");
+        for (DateIntervalConverter converter : dateIntervalConverters) {
+            if (converter.supports(dateInterval.getType())) {
+                return converter.getLocalizedValue(dateInterval);
+            }
         }
+
+        throw new IllegalStateException(String.format("Unknown date interval type: %s", dateInterval.getType()));
     }
 }

@@ -14,26 +14,28 @@
  * limitations under the License.
  */
 
-package io.jmix.ui.app.propertyfilter.dateinterval.predefined;
+package io.jmix.ui.app.propertyfilter.dateinterval.converter;
 
-import io.jmix.core.JmixOrder;
 import io.jmix.core.annotation.Internal;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
 
+import javax.annotation.Nullable;
+
+// todo rp javaDocs
 @Internal
-@Component("ui_NextMonthPredefinedDateInterval")
-@Order(JmixOrder.HIGHEST_PRECEDENCE + 60)
-public class NextMonthPredefinedDateInterval extends PredefinedDateInterval {
+public interface DateIntervalConverter {
 
-    public static final String NAME = "nextMonth";
+    String INCLUDING_CURRENT_DESCR = "including_current";
 
-    public NextMonthPredefinedDateInterval() {
-        super(NAME);
-    }
+    @Nullable
+    BaseDateInterval parse(String dateInterval);
 
-    @Override
-    public String apply(String property) {
-        return String.format("@between({E}.%s, now+1, now+2, month)", property);
-    }
+    String format(BaseDateInterval dateInterval);
+
+    @Nullable
+    String getLocalizedValue(@Nullable BaseDateInterval dateInterval);
+
+    boolean matches(String dateInterval);
+
+    boolean supports(BaseDateInterval.Type type);
 }

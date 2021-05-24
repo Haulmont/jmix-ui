@@ -39,6 +39,13 @@
                 <checkBox id="includingCurrentCheckBox"
                           align="MIDDLE_LEFT"
                           caption="msg://dateIntervalDialog.includingCurrentCheckBox.caption"/>
+                <comboBox id="relativeDateTimeOperationComboBox"
+                          nullOptionVisible="false"
+                          required="true"
+                          width="70px"/>
+                <comboBox id="relativeDateTimeComboBox"
+                          nullOptionVisible="false"
+                          required="true"/>
             </hbox>
             <comboBox id="predefinedIntervalsComboBox"
                       nullOptionVisible="false"

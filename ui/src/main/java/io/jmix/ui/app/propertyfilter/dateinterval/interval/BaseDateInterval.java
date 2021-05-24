@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.jmix.ui.app.propertyfilter.dateinterval;
+package io.jmix.ui.app.propertyfilter.dateinterval.interval;
 
-import io.jmix.ui.app.propertyfilter.dateinterval.predefined.PredefinedDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined.PredefinedDateInterval;
 
 import java.util.function.Function;
 
@@ -60,6 +60,9 @@ public interface BaseDateInterval extends Function<String, String> {
          *
          * @see PredefinedDateInterval
          */
-        PREDEFINED
+        PREDEFINED,
+
+        // todo rp javadoc
+        RELATIVE
     }
 }

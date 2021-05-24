@@ -31,7 +31,7 @@ import io.jmix.ui.action.entitypicker.EntityClearAction;
 import io.jmix.ui.action.entitypicker.EntityLookupAction;
 import io.jmix.ui.action.propertyfilter.DateIntervalAction;
 import io.jmix.ui.action.valuepicker.ValueClearAction;
-import io.jmix.ui.app.propertyfilter.dateinterval.BaseDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
 import io.jmix.ui.app.propertyfilter.dateinterval.DateIntervalUtils;
 import io.jmix.ui.component.*;
 import io.jmix.ui.component.data.DataAwareComponentsTools;

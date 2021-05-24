@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.jmix.ui.app.propertyfilter.dateinterval;
+package io.jmix.ui.app.propertyfilter.dateinterval.interval;
 
 import com.google.common.base.Preconditions;
 
@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
  */
 public class DateInterval implements BaseDateInterval {
 
-    enum TimeUnit {
+    public enum TimeUnit {
         MINUTE, HOUR, DAY, MONTH
     }
 

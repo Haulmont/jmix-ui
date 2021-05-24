@@ -14,26 +14,17 @@
  * limitations under the License.
  */
 
-package io.jmix.ui.app.propertyfilter.dateinterval.predefined;
+package io.jmix.ui.app.propertyfilter.dateinterval;
 
-import io.jmix.core.JmixOrder;
 import io.jmix.core.annotation.Internal;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+
+/**
+ * todo rp javadocs
+ */
 @Internal
-@Component("ui_YesterdayPredefinedDateInterval")
-@Order(JmixOrder.HIGHEST_PRECEDENCE + 20)
-public class YesterdayPredefinedDateInterval extends PredefinedDateInterval {
+public interface RelativeDateTimeMomentProvider {
 
-    public static final String NAME = "yesterday";
-
-    public YesterdayPredefinedDateInterval() {
-        super(NAME);
-    }
-
-    @Override
-    public String apply(String property) {
-        return String.format("@between({E}.%s, now - 1, now, day)", property);
-    }
+    Collection<Object> getAllConstants();
 }

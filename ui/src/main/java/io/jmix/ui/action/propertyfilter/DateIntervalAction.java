@@ -21,7 +21,7 @@ import io.jmix.ui.ScreenBuilders;
 import io.jmix.ui.action.ActionType;
 import io.jmix.ui.action.BaseAction;
 import io.jmix.ui.app.propertyfilter.dateinterval.DateIntervalDialog;
-import io.jmix.ui.app.propertyfilter.dateinterval.BaseDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
 import io.jmix.ui.component.Component;
 import io.jmix.ui.component.Frame;
 import io.jmix.ui.component.ValuePicker;

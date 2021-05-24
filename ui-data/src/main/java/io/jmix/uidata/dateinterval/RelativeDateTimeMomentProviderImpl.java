@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
-package io.jmix.ui.app.propertyfilter.dateinterval.predefined;
+package io.jmix.uidata.dateinterval;
 
-import io.jmix.core.JmixOrder;
 import io.jmix.core.annotation.Internal;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+import io.jmix.data.impl.queryconstant.RelativeDateTimeMoment;
+import io.jmix.ui.app.propertyfilter.dateinterval.RelativeDateTimeMomentProvider;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 @Internal
-@Component("ui_LastMonthPredefinedDateInterval")
-@Order(JmixOrder.HIGHEST_PRECEDENCE + 40)
-public class LastMonthPredefinedDateInterval extends PredefinedDateInterval {
-
-    public static final String NAME = "lastMonth";
-
-    public LastMonthPredefinedDateInterval() {
-        super(NAME);
-    }
+public class RelativeDateTimeMomentProviderImpl implements RelativeDateTimeMomentProvider {
 
     @Override
-    public String apply(String property) {
-        return String.format("@between({E}.%s, now-1, now, month)", property);
+    public Collection<Object> getAllConstants() {
+        return Arrays.asList(RelativeDateTimeMoment.values());
     }
 }
