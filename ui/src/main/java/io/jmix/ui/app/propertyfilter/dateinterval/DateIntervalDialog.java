@@ -23,6 +23,7 @@ import io.jmix.ui.Notifications;
 import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
 import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval.Type;
 import io.jmix.ui.app.propertyfilter.dateinterval.interval.DateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.interval.RelativeDateInterval;
 import io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined.PredefinedDateInterval;
 import io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined.PredefinedDateIntervalRegistry;
 import io.jmix.ui.component.*;
@@ -48,7 +49,7 @@ public class DateIntervalDialog extends Screen {
     protected PredefinedDateIntervalRegistry intervalFactory;
 
     @Autowired(required = false)
-    protected RelativeDateTimeMomentProvider relativeDateTimeMomentProvider;
+    protected RelativeDateTimeMomentProvider relativeMomentProvider;
 
     @Autowired
     protected RadioButtonGroup<Type> typeRadioButtonGroup;
@@ -64,7 +65,7 @@ public class DateIntervalDialog extends Screen {
     protected ComboBox<PredefinedDateInterval> predefinedIntervalsComboBox;
 
     @Autowired
-    protected ComboBox<String> relativeDateTimeOperationComboBox;
+    protected ComboBox<RelativeDateInterval.Operation> relativeDateTimeOperationComboBox;
     @Autowired
     protected ComboBox<Enum> relativeDateTimeComboBox;
 
@@ -97,6 +98,13 @@ public class DateIntervalDialog extends Screen {
             typeRadioButtonGroup.setValue(value.getType());
             if (value.getType() == Type.PREDEFINED) {
                 predefinedIntervalsComboBox.setValue((PredefinedDateInterval) value);
+            } else if (value.getType() == Type.RELATIVE) {
+                RelativeDateInterval dateInterval = (RelativeDateInterval) value;
+                Enum relativeDateTime = relativeMomentProvider.getByName(
+                        dateInterval.getRelativeDateTimeMomentName());
+
+                relativeDateTimeComboBox.setValue(relativeDateTime);
+                relativeDateTimeOperationComboBox.setValue(dateInterval.getOperation());
             } else {
                 DateInterval dateInterval = (DateInterval) value;
                 numberField.setValue(dateInterval.getNumber());
@@ -135,7 +143,7 @@ public class DateIntervalDialog extends Screen {
     }
 
     protected void initTypeRadioButtonGroup() {
-        Map<String, Type> map = relativeDateTimeMomentProvider == null
+        Map<String, Type> map = relativeMomentProvider == null
                 ? getLocalizedEnumMap(Arrays.asList(Type.LAST, Type.NEXT, Type.PREDEFINED))
                 : getLocalizedEnumMap(Type.class);
 
@@ -159,15 +167,19 @@ public class DateIntervalDialog extends Screen {
     }
 
     protected void initRelativeDateTimeOperationComboBox() {
-        relativeDateTimeOperationComboBox.setOptionsList(Arrays.asList(">", "<", "=", ">=", "<="));
+        RelativeDateInterval.Operation[] operations = RelativeDateInterval.Operation.values();
+        Map<String, RelativeDateInterval.Operation> operationsMap = new LinkedHashMap<>(operations.length);
+
+        for (RelativeDateInterval.Operation operation : operations) {
+            operationsMap.put(operation.getValue(), operation);
+        }
+        relativeDateTimeOperationComboBox.setOptionsMap(operationsMap);
     }
 
     protected void initRelativeDateTimeComboBox() {
-        if (relativeDateTimeMomentProvider != null) {
-            List<Enum> relativeDateTimeConstants = relativeDateTimeMomentProvider.getAllConstants().stream()
-                    .map(enumConst -> (Enum) enumConst)
-                    .collect(Collectors.toList());
-            relativeDateTimeComboBox.setOptionsMap(getLocalizedEnumMap(relativeDateTimeConstants));
+        if (relativeMomentProvider != null) {
+            List<Enum> relativeDateTimeMoments = relativeMomentProvider.getAllRelativeDateTimeMoments();
+            relativeDateTimeComboBox.setOptionsMap(getLocalizedEnumMap(relativeDateTimeMoments));
         }
     }
 
@@ -202,9 +214,11 @@ public class DateIntervalDialog extends Screen {
             if (type == Type.PREDEFINED) {
                 value = predefinedIntervalsComboBox.getValue();
             } else if (type == Type.RELATIVE) {
-                // todo rp implement
-            } else {
                 //noinspection ConstantConditions
+                value = new RelativeDateInterval(
+                        relativeDateTimeOperationComboBox.getValue(),
+                        relativeDateTimeComboBox.getValue().name());
+            } else {
                 value = new DateInterval(type,
                         numberField.getValue(),
                         timeUnitComboBox.getValue(),

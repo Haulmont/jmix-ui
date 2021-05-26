@@ -19,19 +19,23 @@ package io.jmix.ui.app.propertyfilter.dateinterval.interval;
 // todo rp javaDocs
 public class RelativeDateInterval implements BaseDateInterval {
 
-    protected final String operation;
+    protected final Operation operation;
     protected final String relativeDateTimeConstant;
 
-    public RelativeDateInterval(String operation, String relativeDateTimeConstant) {
+    public RelativeDateInterval(Operation operation, String relativeDateTimeConstant) {
         this.operation = operation;
         this.relativeDateTimeConstant = relativeDateTimeConstant;
     }
 
-    public String getOperation() {
+    public Operation getOperation() {
         return operation;
     }
 
-    public String getRelativeDateTimeConstant() {
+    public String getOperationValue() {
+        return operation.getValue();
+    }
+
+    public String getRelativeDateTimeMomentName() {
         return relativeDateTimeConstant;
     }
 
@@ -42,6 +46,35 @@ public class RelativeDateInterval implements BaseDateInterval {
 
     @Override
     public String apply(String property) {
-        return BaseDateInterval.super.apply(property);
+        return String.format("{E}.%s %s %s", property, operation.getValue(), relativeDateTimeConstant);
+    }
+
+    public enum Operation {
+
+        EQUAL("="),
+        NOT_EQUAL("<>"),
+        GREATER(">"),
+        GREATER_OR_EQUAL(">="),
+        LESS("<"),
+        LESS_OR_EQUAL("<=");
+
+        String value;
+
+        Operation(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public static Operation fromValue(String value) {
+            for (Operation operation : values()) {
+                if (operation.getValue().equals(value)) {
+                    return operation;
+                }
+            }
+            throw new IllegalArgumentException("There is no Operation for the value: '" + value + "'");
+        }
     }
 }

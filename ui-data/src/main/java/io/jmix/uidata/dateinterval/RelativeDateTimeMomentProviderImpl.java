@@ -21,13 +21,18 @@ import io.jmix.data.impl.queryconstant.RelativeDateTimeMoment;
 import io.jmix.ui.app.propertyfilter.dateinterval.RelativeDateTimeMomentProvider;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 @Internal
 public class RelativeDateTimeMomentProviderImpl implements RelativeDateTimeMomentProvider {
 
     @Override
-    public Collection<Object> getAllConstants() {
+    public List<Enum> getAllRelativeDateTimeMoments() {
         return Arrays.asList(RelativeDateTimeMoment.values());
+    }
+
+    @Override
+    public Enum getByName(String name) {
+        return RelativeDateTimeMoment.valueOf(name);
     }
 }

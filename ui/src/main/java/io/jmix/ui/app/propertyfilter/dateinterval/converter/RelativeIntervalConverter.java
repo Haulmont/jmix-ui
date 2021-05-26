@@ -16,9 +16,15 @@
 
 package io.jmix.ui.app.propertyfilter.dateinterval.converter;
 
+import com.google.common.base.Strings;
+import io.jmix.core.Messages;
 import io.jmix.core.annotation.Internal;
+import io.jmix.ui.app.propertyfilter.dateinterval.RelativeDateTimeMomentProvider;
 import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.interval.RelativeDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.interval.RelativeDateInterval.Operation;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
@@ -28,23 +34,62 @@ import java.util.regex.Pattern;
 public class RelativeIntervalConverter implements DateIntervalConverter {
 
     public static final Pattern RELATIVE_PATTERN =
-            Pattern.compile("RELATIVE\\s+\\w+"); // todo rp write regexp
+            Pattern.compile("RELATIVE\\s+(=|<>|>|>=|<|<=)\\s+\\w+");
+
+    protected Messages messages;
+    protected RelativeDateTimeMomentProvider relativeMomentProvider;
+
+    @Autowired
+    public RelativeIntervalConverter(Messages messages, @Nullable RelativeDateTimeMomentProvider relativeMomentProvider) {
+        this.messages = messages;
+        this.relativeMomentProvider = relativeMomentProvider;
+    }
 
     @Nullable
     @Override
     public BaseDateInterval parse(String dateInterval) {
-        return null;
+        if (Strings.isNullOrEmpty(dateInterval)) {
+            return null;
+        }
+
+        if (!RELATIVE_PATTERN.matcher(dateInterval).matches()) {
+            throw new IllegalArgumentException("Wrong filter relative date interval string format");
+        }
+
+        String[] parts = dateInterval.split("\\s+");
+
+        return new RelativeDateInterval(Operation.fromValue(parts[1]), parts[2]);
     }
 
     @Override
     public String format(BaseDateInterval dateInterval) {
-        return null;
+        checkType(dateInterval);
+
+        RelativeDateInterval relativeDateInterval = (RelativeDateInterval) dateInterval;
+        return BaseDateInterval.Type.RELATIVE
+                + " " + relativeDateInterval.getOperation()
+                + " " + relativeDateInterval.getRelativeDateTimeMomentName();
     }
 
     @Nullable
     @Override
     public String getLocalizedValue(@Nullable BaseDateInterval dateInterval) {
-        return null;
+        if (dateInterval == null) {
+            return null;
+        }
+
+        checkType(dateInterval);
+
+        if (relativeMomentProvider == null) {
+            throw new IllegalStateException("Cannot get localized value due to starter that provides localized messages"
+                    + " for relative date and time moments is not added");
+        }
+
+        RelativeDateInterval relativeDateInterval = (RelativeDateInterval) dateInterval;
+        Operation operation = relativeDateInterval.getOperation();
+        Enum relativeMoment = relativeMomentProvider.getByName(relativeDateInterval.getRelativeDateTimeMomentName());
+
+        return messages.getMessage(operation) + " " + messages.getMessage(relativeMoment).toLowerCase();
     }
 
     @Override
@@ -55,5 +100,13 @@ public class RelativeIntervalConverter implements DateIntervalConverter {
     @Override
     public boolean supports(BaseDateInterval.Type type) {
         return type == BaseDateInterval.Type.RELATIVE;
+    }
+
+    protected void checkType(BaseDateInterval dateInterval) {
+        if (!(dateInterval instanceof RelativeDateInterval)) {
+            throw new IllegalArgumentException(
+                    String.format("%s cannot be applied for '%s'", this.getClass().getSimpleName(),
+                            dateInterval.getType()));
+        }
     }
 }

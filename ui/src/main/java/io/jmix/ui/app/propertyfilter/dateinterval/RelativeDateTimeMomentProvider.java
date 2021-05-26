@@ -18,7 +18,7 @@ package io.jmix.ui.app.propertyfilter.dateinterval;
 
 import io.jmix.core.annotation.Internal;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * todo rp javadocs
@@ -26,5 +26,7 @@ import java.util.Collection;
 @Internal
 public interface RelativeDateTimeMomentProvider {
 
-    Collection<Object> getAllConstants();
+    List<Enum> getAllRelativeDateTimeMoments();
+
+    Enum getByName(String name);
 }

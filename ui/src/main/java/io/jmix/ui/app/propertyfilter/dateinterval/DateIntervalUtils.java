@@ -102,7 +102,7 @@ public class DateIntervalUtils {
      * @see PredefinedDateInterval
      */
     @Nullable
-    public String formatDateIntervalToLocalizedValue(@Nullable BaseDateInterval dateInterval) {
+    public String getLocalizedValue(@Nullable BaseDateInterval dateInterval) {
         if (dateInterval == null) {
             return null;
         }
