@@ -67,7 +67,7 @@ public class RelativeIntervalConverter implements DateIntervalConverter {
 
         RelativeDateInterval relativeDateInterval = (RelativeDateInterval) dateInterval;
         return BaseDateInterval.Type.RELATIVE
-                + " " + relativeDateInterval.getOperation()
+                + " " + relativeDateInterval.getOperation().getValue()
                 + " " + relativeDateInterval.getRelativeDateTimeMomentName();
     }
 

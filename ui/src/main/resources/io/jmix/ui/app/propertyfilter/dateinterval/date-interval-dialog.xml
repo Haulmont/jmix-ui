@@ -42,10 +42,12 @@
                 <comboBox id="relativeDateTimeOperationComboBox"
                           nullOptionVisible="false"
                           required="true"
+                          requiredMessage="msg://dateIntervalDialog.relativeDateTimeOperationComboBox.requiredMessage"
                           width="70px"/>
                 <comboBox id="relativeDateTimeComboBox"
                           nullOptionVisible="false"
-                          required="true"/>
+                          required="true"
+                          requiredMessage="msg://dateIntervalDialog.relativeDateTimeComboBox.requiredMessage"/>
             </hbox>
             <comboBox id="predefinedIntervalsComboBox"
                       nullOptionVisible="false"

@@ -17,6 +17,7 @@
 package io.jmix.ui.action.propertyfilter;
 
 import io.jmix.core.Messages;
+import io.jmix.core.common.event.Subscription;
 import io.jmix.ui.ScreenBuilders;
 import io.jmix.ui.action.ActionType;
 import io.jmix.ui.action.BaseAction;
@@ -25,6 +26,7 @@ import io.jmix.ui.app.propertyfilter.dateinterval.DateIntervalUtils;
 import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
 import io.jmix.ui.component.Component;
 import io.jmix.ui.component.Frame;
+import io.jmix.ui.component.HasValue;
 import io.jmix.ui.component.ValuePicker;
 import io.jmix.ui.icon.Icons;
 import io.jmix.ui.icon.JmixIcon;
@@ -47,6 +49,8 @@ public class DateIntervalAction extends BaseAction implements ValuePicker.ValueP
     protected DateIntervalUtils dateIntervalUtils;
 
     protected ValuePicker<BaseDateInterval> valuePicker;
+
+    protected Subscription valueChangeSubscription;
 
     protected boolean editable = true;
 
@@ -86,8 +90,19 @@ public class DateIntervalAction extends BaseAction implements ValuePicker.ValueP
 
     @Override
     public void setPicker(@Nullable ValuePicker valuePicker) {
-        //noinspection unchecked
-        this.valuePicker = valuePicker;
+        if (this.valuePicker != valuePicker) {
+            if (valueChangeSubscription != null) {
+                valueChangeSubscription.remove();
+                valueChangeSubscription = null;
+            }
+
+            //noinspection unchecked
+            this.valuePicker = valuePicker;
+            if (this.valuePicker != null) {
+                valueChangeSubscription = this.valuePicker.addValueChangeListener(this::onValuePickerValueChange);
+                this.valuePicker.setFormatter(interval -> dateIntervalUtils.getLocalizedValue(interval));
+            }
+        }
     }
 
     @Override
@@ -137,7 +152,10 @@ public class DateIntervalAction extends BaseAction implements ValuePicker.ValueP
     protected void onDateIntervalDialogCloseEvent(Screen.AfterCloseEvent<DateIntervalDialog> closeEvent) {
         if (closeEvent.closedWith(StandardOutcome.COMMIT)) {
             valuePicker.setValueFromUser(closeEvent.getSource().getValue());
-            valuePicker.setDescription(dateIntervalUtils.getLocalizedValue(closeEvent.getSource().getValue()));
         }
+    }
+
+    protected void onValuePickerValueChange(HasValue.ValueChangeEvent<BaseDateInterval> event) {
+        valuePicker.setDescription(dateIntervalUtils.getLocalizedValue(event.getValue()));
     }
 }

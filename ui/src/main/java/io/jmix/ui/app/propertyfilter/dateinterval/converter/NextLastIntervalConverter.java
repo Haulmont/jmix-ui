@@ -84,7 +84,7 @@ public class NextLastIntervalConverter implements DateIntervalConverter {
         BaseDateInterval.Type type = dateInterval.getType();
         Boolean include = interval.getIncludingCurrent();
 
-        return messages.getMessage(this.getClass(), type.name().toLowerCase())
+        return messages.getMessage(type)
                 + " "
                 + interval.getNumber()
                 + " "

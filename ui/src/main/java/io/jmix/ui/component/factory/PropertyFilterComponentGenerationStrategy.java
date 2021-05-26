@@ -197,7 +197,6 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
         ValuePicker<BaseDateInterval> valuePicker = uiComponents.create(ValuePicker.NAME);
         valuePicker.addAction(actions.create(DateIntervalAction.ID));
         valuePicker.addAction(actions.create(ValueClearAction.ID));
-        valuePicker.setFormatter(interval -> dateIntervalUtils.getLocalizedValue(interval));
         return valuePicker;
     }
 
