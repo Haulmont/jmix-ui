@@ -97,7 +97,7 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
         } else if (pfContext.getOperation().getType() == PropertyFilter.Operation.Type.LIST) {
             return createCollectionField(context, mpp);
         } else if (pfContext.getOperation().getType() == PropertyFilter.Operation.Type.INTERVAL) {
-            return createIntervalField(context);
+            return createIntervalField(context, mpp);
         }
 
         return super.createComponentInternal(context);
@@ -193,9 +193,13 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
         return component;
     }
 
-    protected Field createIntervalField(ComponentGenerationContext context) {
+    protected Field createIntervalField(ComponentGenerationContext context, MetaPropertyPath mpp) {
         ValuePicker<BaseDateInterval> valuePicker = uiComponents.create(ValuePicker.NAME);
-        valuePicker.addAction(actions.create(DateIntervalAction.ID));
+
+        DateIntervalAction intervalAction = (DateIntervalAction) actions.create(DateIntervalAction.ID);
+        intervalAction.setMetaPropertyPath(mpp);
+
+        valuePicker.addAction(intervalAction);
         valuePicker.addAction(actions.create(ValueClearAction.ID));
         return valuePicker;
     }

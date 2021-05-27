@@ -26,7 +26,9 @@ import java.util.List;
 @Internal
 public interface RelativeDateTimeMomentProvider {
 
-    List<Enum> getAllRelativeDateTimeMoments();
+    List<Enum> getRelativeDateTimeMoments();
+
+    List<Enum> getRelativeTimeMoments();
 
     Enum getByName(String name);
 }

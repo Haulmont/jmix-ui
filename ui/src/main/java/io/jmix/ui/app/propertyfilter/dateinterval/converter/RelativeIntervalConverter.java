@@ -23,10 +23,10 @@ import io.jmix.ui.app.propertyfilter.dateinterval.RelativeDateTimeMomentProvider
 import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
 import io.jmix.ui.app.propertyfilter.dateinterval.interval.RelativeDateInterval;
 import io.jmix.ui.app.propertyfilter.dateinterval.interval.RelativeDateInterval.Operation;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Nullable;
 import java.util.regex.Pattern;
 
 @Internal

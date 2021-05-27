@@ -18,6 +18,7 @@ package io.jmix.ui.action.propertyfilter;
 
 import io.jmix.core.Messages;
 import io.jmix.core.common.event.Subscription;
+import io.jmix.core.metamodel.model.MetaPropertyPath;
 import io.jmix.ui.ScreenBuilders;
 import io.jmix.ui.action.ActionType;
 import io.jmix.ui.action.BaseAction;
@@ -49,6 +50,7 @@ public class DateIntervalAction extends BaseAction implements ValuePicker.ValueP
     protected DateIntervalUtils dateIntervalUtils;
 
     protected ValuePicker<BaseDateInterval> valuePicker;
+    protected MetaPropertyPath metaPropertyPath;
 
     protected Subscription valueChangeSubscription;
 
@@ -129,6 +131,22 @@ public class DateIntervalAction extends BaseAction implements ValuePicker.ValueP
         }
     }
 
+    /**
+     * @return meta property path of entity's property for Date Interval
+     */
+    public MetaPropertyPath getMetaPropertyPath() {
+        return metaPropertyPath;
+    }
+
+    /**
+     * Sets meta property path of entity's property for Date Interval.
+     *
+     * @param metaPropertyPath meta property path
+     */
+    public void setMetaPropertyPath(MetaPropertyPath metaPropertyPath) {
+        this.metaPropertyPath = metaPropertyPath;
+    }
+
     @Override
     public void actionPerform(Component component) {
         super.actionPerform(component);
@@ -145,6 +163,7 @@ public class DateIntervalAction extends BaseAction implements ValuePicker.ValueP
                     .withAfterCloseListener(this::onDateIntervalDialogCloseEvent)
                     .build()
                     .withValue(valuePicker.getValue())
+                    .withMetaPropertyPath(metaPropertyPath)
                     .show();
         }
     }

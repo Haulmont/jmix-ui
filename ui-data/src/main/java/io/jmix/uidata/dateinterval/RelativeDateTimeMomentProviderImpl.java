@@ -27,8 +27,17 @@ import java.util.List;
 public class RelativeDateTimeMomentProviderImpl implements RelativeDateTimeMomentProvider {
 
     @Override
-    public List<Enum> getAllRelativeDateTimeMoments() {
+    public List<Enum> getRelativeDateTimeMoments() {
         return Arrays.asList(RelativeDateTimeMoment.values());
+    }
+
+    @Override
+    public List<Enum> getRelativeTimeMoments() {
+        return Arrays.asList(
+                RelativeDateTimeMoment.START_OF_CURRENT_HOUR,
+                RelativeDateTimeMoment.END_OF_CURRENT_HOUR,
+                RelativeDateTimeMoment.START_OF_CURRENT_MINUTE,
+                RelativeDateTimeMoment.END_OF_CURRENT_MINUTE);
     }
 
     @Override
