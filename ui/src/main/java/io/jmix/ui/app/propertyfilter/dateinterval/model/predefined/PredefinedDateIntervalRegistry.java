@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined;
+package io.jmix.ui.app.propertyfilter.dateinterval.model.predefined;
 
 import io.jmix.core.annotation.Internal;
 import org.springframework.beans.factory.annotation.Autowired;

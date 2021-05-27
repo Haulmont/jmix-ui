@@ -17,7 +17,7 @@
 package io.jmix.ui.app.propertyfilter.dateinterval.converter;
 
 import io.jmix.core.annotation.Internal;
-import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.BaseDateInterval;
 
 import javax.annotation.Nullable;
 

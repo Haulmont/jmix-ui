@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.jmix.ui.app.propertyfilter.dateinterval.interval;
+package io.jmix.ui.app.propertyfilter.dateinterval.model;
 
-import io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined.PredefinedDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.predefined.PredefinedDateInterval;
 
 import java.util.function.Function;
 

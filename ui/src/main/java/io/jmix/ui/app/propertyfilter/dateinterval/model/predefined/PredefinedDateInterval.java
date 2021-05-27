@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined;
+package io.jmix.ui.app.propertyfilter.dateinterval.model.predefined;
 
 import io.jmix.core.Messages;
-import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.BaseDateInterval;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

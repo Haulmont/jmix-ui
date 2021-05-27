@@ -16,7 +16,7 @@
 
 @Internal
 @NonNullApi
-package io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined;
+package io.jmix.ui.app.propertyfilter.dateinterval.model.predefined;
 
 import io.jmix.core.annotation.Internal;
 import org.springframework.lang.NonNullApi;

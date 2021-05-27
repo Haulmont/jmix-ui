@@ -18,9 +18,9 @@ package io.jmix.ui.app.propertyfilter.dateinterval.converter;
 
 import com.google.common.base.Strings;
 import io.jmix.core.annotation.Internal;
-import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
-import io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined.PredefinedDateInterval;
-import io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined.PredefinedDateIntervalRegistry;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.BaseDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.predefined.PredefinedDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.predefined.PredefinedDateIntervalRegistry;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

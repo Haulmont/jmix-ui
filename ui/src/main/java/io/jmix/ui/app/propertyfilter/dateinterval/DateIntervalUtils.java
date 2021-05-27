@@ -20,9 +20,9 @@ import com.google.common.base.Strings;
 import io.jmix.core.Messages;
 import io.jmix.core.annotation.Internal;
 import io.jmix.ui.app.propertyfilter.dateinterval.converter.DateIntervalConverter;
-import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
-import io.jmix.ui.app.propertyfilter.dateinterval.interval.DateInterval;
-import io.jmix.ui.app.propertyfilter.dateinterval.interval.predefined.PredefinedDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.BaseDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.DateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.predefined.PredefinedDateInterval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

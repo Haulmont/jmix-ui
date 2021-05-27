@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.jmix.ui.app.propertyfilter.dateinterval.interval;
+package io.jmix.ui.app.propertyfilter.dateinterval.model;
 
 // todo rp javaDocs
 public class RelativeDateInterval implements BaseDateInterval {

@@ -33,7 +33,7 @@ import io.jmix.core.metamodel.model.Range;
 import io.jmix.core.metamodel.model.impl.DatatypeRange;
 import io.jmix.core.querycondition.PropertyCondition;
 import io.jmix.ui.app.propertyfilter.dateinterval.RelativeDateTimeMomentProvider;
-import io.jmix.ui.app.propertyfilter.dateinterval.interval.BaseDateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.BaseDateInterval;
 import io.jmix.ui.app.propertyfilter.dateinterval.DateIntervalUtils;
 import io.jmix.ui.component.PropertyFilter;
 import io.jmix.ui.component.PropertyFilter.Operation;
