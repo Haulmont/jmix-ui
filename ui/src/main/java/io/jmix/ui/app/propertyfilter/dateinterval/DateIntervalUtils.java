@@ -17,8 +17,12 @@
 package io.jmix.ui.app.propertyfilter.dateinterval;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import io.jmix.core.Messages;
 import io.jmix.core.annotation.Internal;
+import io.jmix.core.common.util.Preconditions;
+import io.jmix.core.metamodel.model.MetaPropertyPath;
+import io.jmix.core.metamodel.model.Range;
 import io.jmix.ui.app.propertyfilter.dateinterval.converter.DateIntervalConverter;
 import io.jmix.ui.app.propertyfilter.dateinterval.model.BaseDateInterval;
 import io.jmix.ui.app.propertyfilter.dateinterval.model.DateInterval;
@@ -28,6 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
+import java.time.LocalTime;
+import java.time.OffsetTime;
 import java.util.List;
 
 /**
@@ -39,6 +45,9 @@ import java.util.List;
 @Internal
 @Component("ui_DateIntervalUtils")
 public class DateIntervalUtils {
+
+    protected static final List<Class<?>> partlySupportedTimeClasses =
+            ImmutableList.of(LocalTime.class, OffsetTime.class);
 
     protected Messages messages;
     protected List<DateIntervalConverter> dateIntervalConverters;
@@ -118,5 +127,25 @@ public class DateIntervalUtils {
         }
 
         throw new IllegalStateException(String.format("Unknown date interval type: %s", dateInterval.getType()));
+    }
+
+    /**
+     * @param mpp   meta property path
+     * @param value date interval
+     * @return {@code true} if date interval type supports provided property type
+     */
+    public boolean isDatatypeSupportsValue(MetaPropertyPath mpp, BaseDateInterval value) {
+        Preconditions.checkNotNullArgument(mpp);
+        Preconditions.checkNotNullArgument(value);
+
+        Range range = mpp.getRange();
+        if (!range.isDatatype()) {
+            throw new IllegalStateException("Value is not a simple type");
+        }
+        Class<?> javaClass = range.asDatatype().getJavaClass();
+        if (partlySupportedTimeClasses.contains(javaClass)) {
+            return value instanceof RelativeDateInterval;
+        }
+        return true;
     }
 }

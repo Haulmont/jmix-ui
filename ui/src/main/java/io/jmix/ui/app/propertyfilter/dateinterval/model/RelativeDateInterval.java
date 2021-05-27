@@ -22,11 +22,11 @@ package io.jmix.ui.app.propertyfilter.dateinterval.model;
 public class RelativeDateInterval implements BaseDateInterval {
 
     protected final Operation operation;
-    protected final String relativeDateTimeConstant;
+    protected final String relativeDateTimeMomentName;
 
-    public RelativeDateInterval(Operation operation, String relativeDateTimeConstant) {
+    public RelativeDateInterval(Operation operation, String relativeDateTimeMomentName) {
         this.operation = operation;
-        this.relativeDateTimeConstant = relativeDateTimeConstant;
+        this.relativeDateTimeMomentName = relativeDateTimeMomentName;
     }
 
     public Operation getOperation() {
@@ -38,7 +38,7 @@ public class RelativeDateInterval implements BaseDateInterval {
     }
 
     public String getRelativeDateTimeMomentName() {
-        return relativeDateTimeConstant;
+        return relativeDateTimeMomentName;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class RelativeDateInterval implements BaseDateInterval {
 
     @Override
     public String apply(String property) {
-        return String.format("{E}.%s %s %s", property, operation.getValue(), relativeDateTimeConstant);
+        return String.format("{E}.%s %s %s", property, operation.getValue(), relativeDateTimeMomentName);
     }
 
     /**

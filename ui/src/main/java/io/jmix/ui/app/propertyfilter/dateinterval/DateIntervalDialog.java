@@ -210,10 +210,7 @@ public class DateIntervalDialog extends Screen {
                         availableTypes.add(Type.RELATIVE);
                     }
                     typeRadioButtonGroup.setOptionsMap(getLocalizedEnumMap(availableTypes));
-                    return;
-                }
-
-                if (LocalTime.class.equals(javaClass)
+                } else if (LocalTime.class.equals(javaClass)
                         || OffsetTime.class.equals(javaClass)) {
                     if (relativeMomentProvider != null) {
                         typeRadioButtonGroup.setOptionsMap(

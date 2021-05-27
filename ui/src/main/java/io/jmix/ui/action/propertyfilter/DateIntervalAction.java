@@ -18,6 +18,8 @@ package io.jmix.ui.action.propertyfilter;
 
 import io.jmix.core.Messages;
 import io.jmix.core.common.event.Subscription;
+import io.jmix.core.common.util.Preconditions;
+import io.jmix.core.metamodel.datatype.Datatype;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
 import io.jmix.ui.ScreenBuilders;
 import io.jmix.ui.action.ActionType;
@@ -38,6 +40,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Nullable;
+import java.time.LocalTime;
 
 @ActionType(DateIntervalAction.ID)
 public class DateIntervalAction extends BaseAction implements ValuePicker.ValuePickerAction, InitializingBean {
@@ -175,6 +178,22 @@ public class DateIntervalAction extends BaseAction implements ValuePicker.ValueP
     }
 
     protected void onValuePickerValueChange(HasValue.ValueChangeEvent<BaseDateInterval> event) {
+        if (event.getValue() != null) {
+            checkValueType(event.getValue());
+        }
+
         valuePicker.setDescription(dateIntervalUtils.getLocalizedValue(event.getValue()));
+    }
+
+    protected void checkValueType(BaseDateInterval value) {
+        Preconditions.checkNotNullArgument(value);
+
+        if (metaPropertyPath != null) {
+            if (!dateIntervalUtils.isDatatypeSupportsValue(metaPropertyPath, value)) {
+                Datatype datatype = metaPropertyPath.getRange().asDatatype();
+                throw new IllegalStateException("Date interval with " + value.getType() + " type does not support '"
+                        + datatype.getJavaClass() + "'");
+            }
+        }
     }
 }
