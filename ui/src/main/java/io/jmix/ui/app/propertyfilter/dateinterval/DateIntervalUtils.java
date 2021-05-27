@@ -22,6 +22,7 @@ import io.jmix.core.annotation.Internal;
 import io.jmix.ui.app.propertyfilter.dateinterval.converter.DateIntervalConverter;
 import io.jmix.ui.app.propertyfilter.dateinterval.model.BaseDateInterval;
 import io.jmix.ui.app.propertyfilter.dateinterval.model.DateInterval;
+import io.jmix.ui.app.propertyfilter.dateinterval.model.RelativeDateInterval;
 import io.jmix.ui.app.propertyfilter.dateinterval.model.predefined.PredefinedDateInterval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -58,6 +59,7 @@ public class DateIntervalUtils {
      * @param dateInterval string presentation of date interval
      * @return configured date interval or {@code null} if input parameter is null or empty.
      * @see DateInterval
+     * @see RelativeDateInterval
      * @see PredefinedDateInterval
      */
     @Nullable
@@ -81,6 +83,7 @@ public class DateIntervalUtils {
      * @param dateInterval date interval instance
      * @return raw presentation of date interval
      * @see DateInterval
+     * @see RelativeDateInterval
      * @see PredefinedDateInterval
      */
     public String formatDateInterval(BaseDateInterval dateInterval) {
@@ -99,6 +102,7 @@ public class DateIntervalUtils {
      * @param dateInterval date interval instance
      * @return localized value
      * @see DateInterval
+     * @see RelativeDateInterval
      * @see PredefinedDateInterval
      */
     @Nullable

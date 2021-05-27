@@ -21,7 +21,11 @@ import com.google.common.base.Preconditions;
 import javax.annotation.Nullable;
 
 /**
- * Class describes date interval.
+ * Class describes date interval with the following types:
+ * <ul>
+ *   <li>{@link Type#LAST}</li>
+ *   <li>{@link Type#NEXT}</li>
+ * </ul>
  */
 public class DateInterval implements BaseDateInterval {
 

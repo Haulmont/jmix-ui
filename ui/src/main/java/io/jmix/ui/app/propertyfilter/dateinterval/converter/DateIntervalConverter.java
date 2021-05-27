@@ -21,21 +21,51 @@ import io.jmix.ui.app.propertyfilter.dateinterval.model.BaseDateInterval;
 
 import javax.annotation.Nullable;
 
-// todo rp javaDocs
+/**
+ * Interface provides methods for parsing/formating date interval values.
+ */
 @Internal
 public interface DateIntervalConverter {
 
     String INCLUDING_CURRENT_DESCR = "including_current";
 
+    /**
+     * Parses string presentation of date interval to {@link BaseDateInterval}.
+     *
+     * @param dateInterval string presentation of date interval
+     * @return configured date interval or {@code null} if input parameter is null or empty.
+     */
     @Nullable
     BaseDateInterval parse(String dateInterval);
 
+    /**
+     * Formats date interval to string presentation.
+     *
+     * @param dateInterval date interval instance
+     * @return raw presentation of date interval
+     */
     String format(BaseDateInterval dateInterval);
 
+    /**
+     * Formats date interval and gets localized value.
+     *
+     * @param dateInterval date interval instance
+     * @return localized value
+     */
     @Nullable
     String getLocalizedValue(@Nullable BaseDateInterval dateInterval);
 
+    /**
+     * Checks that provided date interval matches with converter's value pattern.
+     *
+     * @param dateInterval string presentation of date interval
+     * @return true if provided date interval matches with the value pattern of the converter
+     */
     boolean matches(String dateInterval);
 
+    /**
+     * @param type date interval type
+     * @return true if converter supports the given type
+     */
     boolean supports(BaseDateInterval.Type type);
 }

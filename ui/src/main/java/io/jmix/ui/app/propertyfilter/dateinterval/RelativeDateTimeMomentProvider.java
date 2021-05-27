@@ -21,14 +21,24 @@ import io.jmix.core.annotation.Internal;
 import java.util.List;
 
 /**
- * todo rp javadocs
+ * Provides enum values for relative date and time moments.
  */
 @Internal
 public interface RelativeDateTimeMomentProvider {
 
+    /**
+     * @return all enum values
+     */
     List<Enum> getRelativeDateTimeMoments();
 
+    /**
+     * @return enum values that correspond to time types
+     */
     List<Enum> getRelativeTimeMoments();
 
+    /**
+     * @param name name of enum constant
+     * @return enum value
+     */
     Enum getByName(String name);
 }

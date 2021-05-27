@@ -47,11 +47,15 @@ public interface BaseDateInterval extends Function<String, String> {
 
         /**
          * Interval the preceding to the current.
+         *
+         * @see DateInterval
          */
         LAST,
 
         /**
          * Interval from the current to future.
+         *
+         * @see DateInterval
          */
         NEXT,
 
@@ -62,7 +66,11 @@ public interface BaseDateInterval extends Function<String, String> {
          */
         PREDEFINED,
 
-        // todo rp javadoc
+        /**
+         * Interval that uses date and time constants (e.g. first day of the current week).
+         *
+         * @see RelativeDateInterval
+         */
         RELATIVE
     }
 }

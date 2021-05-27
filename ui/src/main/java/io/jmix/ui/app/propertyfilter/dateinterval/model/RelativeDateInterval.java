@@ -16,7 +16,9 @@
 
 package io.jmix.ui.app.propertyfilter.dateinterval.model;
 
-// todo rp javaDocs
+/**
+ * Class describes date interval with relative date and time moments {@link Type#RELATIVE}.
+ */
 public class RelativeDateInterval implements BaseDateInterval {
 
     protected final Operation operation;
@@ -49,6 +51,9 @@ public class RelativeDateInterval implements BaseDateInterval {
         return String.format("{E}.%s %s %s", property, operation.getValue(), relativeDateTimeConstant);
     }
 
+    /**
+     * Operation that can be available for relative date and time moments.
+     */
     public enum Operation {
 
         EQUAL("="),
