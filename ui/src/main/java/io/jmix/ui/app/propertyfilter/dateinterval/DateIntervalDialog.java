@@ -197,7 +197,7 @@ public class DateIntervalDialog extends Screen {
 
             Class<?> javaClass = range.asDatatype().getJavaClass();
             if (timeClasses.contains(javaClass)) {
-                timeUnitComboBox.setOptionsMap(getLocalizedEnumMap(Arrays.asList(TimeUnit.MINUTE, TimeUnit.HOUR)));
+                timeUnitComboBox.setOptionsMap(getLocalizedEnumMap(Arrays.asList(TimeUnit.HOUR, TimeUnit.MINUTE)));
 
                 if (relativeMomentProvider != null) {
                     relativeDateTimeComboBox.setOptionsMap(

@@ -66,7 +66,7 @@ class RelativeDateIntervalTest extends UiDataTestSpecification {
         screen.dateFilter.setValue(new RelativeDateInterval(GREATER_OR_EQUAL, "START_OF_YESTERDAY"))
         screen.dateFilter.apply()
 
-        then: "Should loaded only one item"
+        then: "Should be loaded only one item"
         screen.items.size() == 1
     }
 }

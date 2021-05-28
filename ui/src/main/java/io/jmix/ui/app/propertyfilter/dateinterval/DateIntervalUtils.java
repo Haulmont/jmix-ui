@@ -134,14 +134,15 @@ public class DateIntervalUtils {
      * @param value date interval
      * @return {@code true} if date interval type supports provided property type
      */
-    public boolean isDatatypeSupportsValue(MetaPropertyPath mpp, BaseDateInterval value) {
+    public boolean isIntervalTypeSupportsDatatype(BaseDateInterval value, MetaPropertyPath mpp) {
         Preconditions.checkNotNullArgument(mpp);
         Preconditions.checkNotNullArgument(value);
 
         Range range = mpp.getRange();
         if (!range.isDatatype()) {
-            throw new IllegalStateException("Value is not a simple type");
+            return false;
         }
+
         Class<?> javaClass = range.asDatatype().getJavaClass();
         if (partlySupportedTimeClasses.contains(javaClass)) {
             return value instanceof RelativeDateInterval;

@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 public class DateInterval implements BaseDateInterval {
 
     public enum TimeUnit {
-        MINUTE, HOUR, DAY, MONTH
+          MONTH, DAY, HOUR, MINUTE
     }
 
     protected final Type type;

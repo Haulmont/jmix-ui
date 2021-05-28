@@ -40,7 +40,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Nullable;
-import java.time.LocalTime;
 
 @ActionType(DateIntervalAction.ID)
 public class DateIntervalAction extends BaseAction implements ValuePicker.ValuePickerAction, InitializingBean {
@@ -189,7 +188,7 @@ public class DateIntervalAction extends BaseAction implements ValuePicker.ValueP
         Preconditions.checkNotNullArgument(value);
 
         if (metaPropertyPath != null) {
-            if (!dateIntervalUtils.isDatatypeSupportsValue(metaPropertyPath, value)) {
+            if (!dateIntervalUtils.isIntervalTypeSupportsDatatype(value, metaPropertyPath)) {
                 Datatype datatype = metaPropertyPath.getRange().asDatatype();
                 throw new IllegalStateException("Date interval with " + value.getType() + " type does not support '"
                         + datatype.getJavaClass() + "'");
