@@ -189,37 +189,44 @@ public class DateIntervalDialog extends Screen {
     protected void filterOptionsByPropertyType(@Nullable MetaPropertyPath mpp) {
         // If property is Dynamic Attribute mpp can be null.
         // DynAttr contains only Date or DateTime attributes.
-        if (mpp != null) {
-            Range range = mpp.getRange();
-            if (!range.isDatatype()) {
-                throw new IllegalStateException("Value is not a simple type");
+        if (mpp == null) {
+            return;
+        }
+
+        Range range = mpp.getRange();
+        if (!range.isDatatype()) {
+            throw new IllegalStateException("Value is not a simple type");
+        }
+
+        Class<?> javaClass = range.asDatatype().getJavaClass();
+        if (!timeClasses.contains(javaClass)) {
+            return;
+        }
+
+        timeUnitComboBox.setOptionsMap(getLocalizedEnumMap(Arrays.asList(TimeUnit.HOUR, TimeUnit.MINUTE)));
+
+        if (relativeMomentProvider != null) {
+            relativeDateTimeComboBox.setOptionsMap(
+                    getLocalizedEnumMap(relativeMomentProvider.getRelativeTimeMoments()));
+        }
+
+        if (java.sql.Time.class.equals(javaClass)) {
+            List<Type> availableTypes = new ArrayList<>(Arrays.asList(Type.LAST, Type.NEXT));
+            if (relativeMomentProvider != null) {
+                availableTypes.add(Type.RELATIVE);
             }
+            typeRadioButtonGroup.setOptionsMap(getLocalizedEnumMap(availableTypes));
+            return;
+        }
 
-            Class<?> javaClass = range.asDatatype().getJavaClass();
-            if (timeClasses.contains(javaClass)) {
-                timeUnitComboBox.setOptionsMap(getLocalizedEnumMap(Arrays.asList(TimeUnit.HOUR, TimeUnit.MINUTE)));
-
-                if (relativeMomentProvider != null) {
-                    relativeDateTimeComboBox.setOptionsMap(
-                            getLocalizedEnumMap(relativeMomentProvider.getRelativeTimeMoments()));
-                }
-
-                if (java.sql.Time.class.equals(javaClass)) {
-                    List<Type> availableTypes = new ArrayList<>(Arrays.asList(Type.LAST, Type.NEXT));
-                    if (relativeMomentProvider != null) {
-                        availableTypes.add(Type.RELATIVE);
-                    }
-                    typeRadioButtonGroup.setOptionsMap(getLocalizedEnumMap(availableTypes));
-                } else if (LocalTime.class.equals(javaClass)
-                        || OffsetTime.class.equals(javaClass)) {
-                    if (relativeMomentProvider != null) {
-                        typeRadioButtonGroup.setOptionsMap(
-                                getLocalizedEnumMap(Collections.singletonList(Type.RELATIVE)));
-                    } else {
-                        throw new IllegalStateException("There is no available options in Date interval dialog for: '"
-                                + javaClass.getName() + "' type");
-                    }
-                }
+        if (LocalTime.class.equals(javaClass)
+                || OffsetTime.class.equals(javaClass)) {
+            if (relativeMomentProvider != null) {
+                typeRadioButtonGroup.setOptionsMap(
+                        getLocalizedEnumMap(Collections.singletonList(Type.RELATIVE)));
+            } else {
+                throw new IllegalStateException("There is no available options in Date interval dialog for: '"
+                        + javaClass.getName() + "' type");
             }
         }
     }
