@@ -279,6 +279,7 @@ $jmix-table-drag-indicator-color: $v-focus-color;
     }
 
     .jmix-simplepagination {
+      margin-bottom: $v-layout-spacing-vertical;
       padding-left: round($v-layout-spacing-horizontal/2);
       text-align: right;
       flex-shrink: 0;
