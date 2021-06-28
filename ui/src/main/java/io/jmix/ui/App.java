@@ -25,6 +25,7 @@ import com.vaadin.ui.Window;
 import io.jmix.core.CoreProperties;
 import io.jmix.core.MessageTools;
 import io.jmix.core.Messages;
+import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.ui.action.Action;
 import io.jmix.ui.action.BaseAction;
 import io.jmix.ui.action.DialogAction;
@@ -104,6 +105,8 @@ public abstract class App {
     protected UiProperties uiProperties;
     @Autowired
     protected UiThemeProperties uiThemeProperties;
+    @Autowired
+    protected CurrentAuthentication currentAuthentication;
 
     protected AppCookies cookies;
 
@@ -448,7 +451,12 @@ public abstract class App {
         List<AppUI> authenticatedUIs = getAppUIs()
                 .stream()
                 .filter(ui ->
-                        uiProperties.isForceRefreshAuthenticatedTabs())
+                        ui.hasAuthenticatedSession() &&
+                                (Objects.equals(currentAuthentication, ui.currentAuthentication)
+                                        || uiProperties.isForceRefreshAuthenticatedTabs())
+
+                )
+
                 .collect(Collectors.toList());
 
         removeAllWindows(authenticatedUIs);
